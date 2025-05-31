@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎨 Smart Prompt Wizard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      padding: 40px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      color: #333;
+      font-size: 28px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004c99;
+    }
+
+    .output {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #eef3fb;
+      border-left: 4px solid #5589c7;
+      white-space: pre-wrap;
+    }
+
+    a.cheat-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    a.cheat-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Smart Prompt Wizard</h1>
+    <a href="cheat_sheet.md" download class="cheat-link">📘 Download Prompting Cheat Sheet</a>
+
+    <form id="promptForm">
+      <label for="type">Type of Content:</label>
+      <select id="type" required>
+        <option>Story</option>
+        <option>Essay</option>
+        <option>Dialogue</option>
+        <option>Poem</option>
+        <option>Image Description</option>
+        <option>AI Design</option>
+      </select>
+
+      <label for="topic">Topic:</label>
+      <input type="text" id="topic" placeholder="e.g. Time Travel or Empathy in AI" required />
+
+      <label for="constraint1">Constraint 1:</label>
+      <input type="text" id="constraint1" placeholder="e.g. Use only one-syllable words" />
+
+      <label for="constraint2">Constraint 2:</label>
+      <input type="text" id="constraint2" placeholder="e.g. Include a metaphor about fire" />
+
+      <label for="constraint3">Constraint 3:</label>
+      <input type="text" id="constraint3" placeholder="e.g. Written as a pirate" />
+
+      <label for="tone">Tone or Style:</label>
+      <input type="text" id="tone" placeholder="e.g. Playful, Professional, Poetic" />
+
+      <button type="submit">Generate Prompt</button>
+    </form>
+
+    <div id="output" class="output" style="display: none;"></div>
+  </div>
+
+  <script>
+    document.getElementById("promptForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const type = document.getElementById("type").value;
+      const topic = document.getElementById("topic").value;
+      const c1 = document.getElementById("constraint1").value.trim();
+      const c2 = document.getElementById("constraint2").value.trim();
+      const c3 = document.getElementById("constraint3").value.trim();
+      const tone = document.getElementById("tone").value.trim();
+
+      const constraints = [c1, c2, c3].filter(c => c);
+      const numberedConstraints = constraints.map((c, i) => `${i + 1}. ${c}`).join("\n");
+      const toneNote = tone ? tone : "stylistically consistent";
+
+      const prompt = 
+`Write a ${type.toLowerCase()} about ${topic}, but with the following constraints:
+${numberedConstraints || "No specific constraints."}
+Make sure it stays ${toneNote}.`;
+
+      const outputDiv = document.getElementById("output");
+      outputDiv.style.display = "block";
+      outputDiv.textContent = prompt;
+    });
+  </script>
+</body>
+</html>
